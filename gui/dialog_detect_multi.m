@@ -78,16 +78,21 @@ id_cond = handles.id_axes(1);
 ci = handles.id_axes(2);
 ri = handles.id_axes(3);
 
-pmin_av = handles.processed.pmin_av{id_cond,ci}(2,:,ri);
-pmax_av = handles.processed.pmax_av{id_cond,ci}(2,:,ri);
+handles.id_pot = 1;
+%pmin_av = handles.processed.pmin_av{id_cond,ci}(2,:,ri);
+%pmax_av = handles.processed.pmax_av{id_cond,ci}(2,:,ri);
+pmin = handles.processed.pmin{id_cond,ci}(2,handles.id_pot,ri);
+pmax = handles.processed.pmax{id_cond,ci}(2,handles.id_pot,ri);
 
-latency_av = handles.processed.latency_av{id_cond,ci}(2,:,ri);
+
+%latency_av = handles.processed.latency_av{id_cond,ci}(2,:,ri);
 % lat = 1000*handles.processed.xs_norm{id_cond,ci}(latency_I_av,1);
+latency = handles.processed.latency{id_cond,ci}(2,handles.id_pot,ri);
 
 cond_name = handles.reader.fig_titles{id_cond};
 
 % pushbutton names
-pb_names = {'Amplitude', 'Latency', 'No Potential', 'Initial Values'};
+pb_names = {'Amplitude', 'Latency', 'No Potential', 'Initial Values', '<', '>'};
 
 % creates the panel for buttons in dialog_detect
 panelgraph_pos = [1.5/50 0.275 1/4 4/6];
@@ -113,15 +118,20 @@ set(get(axesdetect,'Title'),'String',cond_name)
 
 % ----- Position of Controls
 
-pb_detect_1_pos = [0.17, 0.85, 4/6, 0.10];
-str_1_min_pos = [0.17, 0.77, 1.75/6, 0.06];
-str_1_max_pos = [0.54, 0.77, 1.75/6, 0.06];
-pb_detect_2_pos = [0.17, 0.65, 4/6, 0.10];
-str_2_min_pos = [0.17, 0.57, 1.75/6, 0.06];
-str_2_max_pos = [0.54, 0.57, 1.75/6, 0.06];
-pb_detect_3_pos = [0.17, 0.45, 4/6, 0.10];
-pb_detect_4_pos = [0.17, 0.30, 4/6, 0.10];
-pb_close_pos = [0.17, 0.05, 4/6, 0.10];
+pb_detect_1_pos = [0.17, 0.87, 4/6, 0.09];
+str_1_min_pos = [0.17, 0.78, 1.75/6, 0.06];
+str_1_max_pos = [0.54, 0.78, 1.75/6, 0.06];
+pb_detect_2_pos = [0.17, 0.68, 4/6, 0.09];
+str_2_min_pos = [0.17, 0.60, 1.75/6, 0.06];
+str_2_max_pos = [0.54, 0.60, 1.75/6, 0.06];
+pb_detect_3_pos = [0.17, 0.50, 4/6, 0.09];
+pb_detect_4_pos = [0.17, 0.35, 4/6, 0.09];
+pb_detect_5_pos = [0.17, 0.20, 0.24, 0.09];
+pb_detect_6_pos = [0.60, 0.20, 0.24, 0.09];
+pb_close_pos = [0.17, 0.05, 4/6, 0.09];
+edit_idpot_pos = [0.431, 0.20, 0.15, 0.09];
+
+handles.id_pot = 1;
 
 % ----- Amplitude selection
 
@@ -132,13 +142,21 @@ set(pb_detect(1), 'Position', pb_detect_1_pos, ...
     'Callback', @(obj, eventdata)pb_detect_callback(obj, 1));
 
 % static text for minimum amplitude selection
-hstr(1,1) = uicontrol(panel_graph, 'String', num2str(pmin_av,'%.2f'),...
+%hstr(1,1) = uicontrol(panel_graph, 'String', num2str(pmin_av,'%.2f'),...
+%    'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10,'FontWeight',...
+%    'bold', 'Units', 'normalized', 'HorizontalAlignment', 'center');
+%set(hstr(1,1), 'Position', str_1_min_pos);
+hstr(1,1) = uicontrol(panel_graph, 'String', num2str(pmin,'%.2f'),...
     'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10,'FontWeight',...
     'bold', 'Units', 'normalized', 'HorizontalAlignment', 'center');
 set(hstr(1,1), 'Position', str_1_min_pos);
 
 % static text for maximum amplitude selection
-hstr(1,2) = uicontrol(panel_graph, 'String', num2str(pmax_av,'%.2f'),...
+%hstr(1,2) = uicontrol(panel_graph, 'String', num2str(pmax_av,'%.2f'),...
+%    'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
+%    'bold', 'Units', 'normalized');
+%set(hstr(1,2), 'Position', str_1_max_pos);
+hstr(1,2) = uicontrol(panel_graph, 'String', num2str(pmax,'%.2f'),...
     'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
     'bold', 'Units', 'normalized');
 set(hstr(1,2), 'Position', str_1_max_pos);
@@ -152,13 +170,22 @@ set(pb_detect(2), 'Position', pb_detect_2_pos, ...
     'Callback', @(obj, eventdata)pb_detect_callback(obj, 2));
 
 % static text for minimum latency selection
-hstr(2,1) = uicontrol(panel_graph, 'String', num2str(latency_av,'%.2f'),...
+%hstr(2,1) = uicontrol(panel_graph, 'String', num2str(latency_av,'%.2f'),...
+%    'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
+%    'bold', 'Units', 'normalized', 'HorizontalAlignment', 'center');
+%set(hstr(2,1), 'Position', str_2_min_pos);
+hstr(2,1) = uicontrol(panel_graph, 'String', num2str(latency,'%.2f'),...
     'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
     'bold', 'Units', 'normalized', 'HorizontalAlignment', 'center');
 set(hstr(2,1), 'Position', str_2_min_pos);
 
 % static text for maximum latency selection
-hstr(2,2) = uicontrol(panel_graph, 'String', num2str(latency_av,'%.2f'),...
+%hstr(2,2) = uicontrol(panel_graph, 'String', num2str(latency_av,'%.2f'),...
+%    'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
+%    'bold', 'Units', 'normalized');
+%set(hstr(2,2), 'Position', str_2_max_pos);
+%set(hstr(2,2), 'Visible', 'off');
+hstr(2,2) = uicontrol(panel_graph, 'String', num2str(latency,'%.2f'),...
     'Style', 'text', 'BackgroundColor', 'w', 'FontSize', 10, 'FontWeight',...
     'bold', 'Units', 'normalized');
 set(hstr(2,2), 'Position', str_2_max_pos);
@@ -175,21 +202,42 @@ set(pb_detect(3), 'Position', pb_detect_3_pos, ...
 % ----- Return initial values
 
 % push button to return for initial values
-% pb_detect(4) = uicontrol(panel_graph, 'String', pb_names{4}, ...
-%     'FontSize', 10, 'FontWeight', 'bold','Units', 'normalized');    
-% set(pb_detect(4), 'Position', pb_detect_4_pos, ...
-%     'Callback', @(obj, eventdata)callback_detect_multi(obj, 4));
-
 pb_detect(4) = uicontrol(panel_graph, 'String', pb_names{4}, ...
     'FontSize', 10, 'FontWeight', 'bold','Units', 'normalized');    
 set(pb_detect(4), 'Position', pb_detect_4_pos, ...
     'Callback', @(obj, eventdata)pb_detect_callback(obj, 4));
+
+% ----- Finish selection
 
 % push button to close dialog_detect figure
 pb_close = uicontrol(panel_graph, 'String', 'Finished', 'BackgroundColor', 'g', ...
     'FontSize', 10, 'FontWeight', 'bold','Units', 'normalized');
 set(pb_close, 'Position', pb_close_pos, ...
     'Callback', @pushbutton_close_Callback);
+
+% ----- Previous and next selection
+
+% push button for previous mep selection
+pb_detect(5) = uicontrol(panel_graph, 'String', pb_names{5}, ...
+    'FontSize', 10, 'FontWeight', 'bold','Units', 'normalized');    
+set(pb_detect(5), 'Position', pb_detect_5_pos, ...
+    'Callback', @(obj, eventdata)pb_detect_callback(obj, 5));
+
+% push button for next mep selection
+pb_detect(6) = uicontrol(panel_graph, 'String', pb_names{6}, ...
+    'FontSize', 10, 'FontWeight', 'bold','Units', 'normalized');    
+set(pb_detect(6), 'Position', pb_detect_6_pos, ...
+    'Callback', @(obj, eventdata)pb_detect_callback(obj, 6));
+
+% ----- Edit for threshold value
+
+% text for mep selection
+handles.edit_idpot = uicontrol(panel_graph, 'Style', 'edit',...
+    'String', '1', 'BackgroundColor', 'w', 'Units', 'normalized',...
+    'FontWeight', 'bold', 'FontUnits', 'normalized',...
+    'Callback', @edit_idpot_Callback);
+set(handles.edit_idpot, 'Position', edit_idpot_pos, 'FontSize', 0.4);
+
 
 % align uicontrols inside the graph_panel
 align([axesdetect, panel_graph], 'None', 'Top');
@@ -205,12 +253,12 @@ handles.axesdetect = axesdetect;
 handles.hstr = hstr;
 handles.pb_names = pb_names;
 
-[handles.hsig, handles.hpeaks, handles.hlat] = plot_multi(axesdetect,...
-    handles.processed, handles.id_axes);
+[handles.hsig, handles.hpeaks, handles.hlat] = plot_multi_single(axesdetect,...
+     handles.processed, handles.id_axes, handles.id_pot);
 
-for i = 1:length(handles.hsig)-1
-   set(handles.hsig(i), 'Visible', 'off');
-end
+%for i = 1:length(handles.hsig)-1
+%   set(handles.hsig(i), 'Visible', 'off');
+%end
 
 guidata(hObject, handles);
 
