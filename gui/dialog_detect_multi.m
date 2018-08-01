@@ -77,8 +77,8 @@ movegui(hObject, 'center');
 id_cond = handles.id_axes(1);
 ci = handles.id_axes(2);
 ri = handles.id_axes(3);
-
 handles.id_pot = 1;
+
 %pmin_av = handles.processed.pmin_av{id_cond,ci}(2,:,ri);
 %pmax_av = handles.processed.pmax_av{id_cond,ci}(2,:,ri);
 pmin = handles.processed.pmin{id_cond,ci}(2,handles.id_pot,ri);

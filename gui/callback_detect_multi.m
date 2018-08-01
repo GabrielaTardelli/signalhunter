@@ -44,13 +44,14 @@ info_text = handles.info_text;
 
 fs = handles.reader.fs{id_cond, ci};
 xs_norm = handles.processed.xs_norm{id_cond,ci}(:,1);
-average_pots = handles.processed.average_pots{id_cond,ci}(:,:,ri);
+%average_pots = handles.processed.average_pots{id_cond,ci}(:,:,ri);
+
 
 yl = get(axesdetect, 'YLim');
 
 switch id_pb
     case 1
-        
+        split_pots = handles.processed.split_pots{id_cond,ci}(:,handles.id_pot,ri);
         hstr = handles.hstr(id_pb, :);
         
         % ---- Delete previous plots
@@ -70,7 +71,7 @@ switch id_pb
         [x(1), ~] = getpts(axesdetect);
         
         pmin = [round((x(1)-xs_norm(1))*(fs/1000));...
-            average_pots(round((x(1)-xs_norm(1))*(fs/1000)))];
+            split_pots(round((x(1)-xs_norm(1))*(fs/1000)))];
         
         set(hstr(1,1), 'String', num2str(pmin(2),'%.2f'));
         handles.hpeaks(1) = plot(axesdetect, xs_norm(pmin(1)), pmin(2), '+m',...
@@ -82,7 +83,7 @@ switch id_pb
         [x(2), ~] = getpts(axesdetect);
         
         pmax = [round((x(2)-xs_norm(1))*(fs/1000));...
-            average_pots(round((x(2)-xs_norm(1))*(fs/1000)))];
+            split_pots(round((x(2)-xs_norm(1))*(fs/1000)))];
         
         set(hstr(1,2), 'String', num2str(pmax(2),'%.2f'));
         handles.hpeaks(2) = plot(axesdetect, xs_norm(pmax(1)), pmax(2), '+m',...
@@ -298,8 +299,8 @@ switch id_pb
             end
         end
         
-        hold on
         
+        hold on        
         % ---- Next potencial
         id_cond = handles.id_axes(1);
         ci = handles.id_axes(2);
@@ -311,13 +312,13 @@ switch id_pb
         if handles.id_pot >= n_pots
             handles.id_pot = 1;
             %set(handles.edit_idcond, 'String',...
-             %   num2str(handles.conditions(handles.id_pot)))
+            %   num2str(handles.conditions(handles.id_pot)))
         else
             handles.id_pot = handles.id_pot + 1;
             %set(handles.edit_idcond, 'String',...
               %  num2str(handles.conditions(handles.id_pot)))
         end
-
+ 
         [handles.hsig, handles.hpeaks, handles.hlat] = plot_multi_single(axesdetect,...
         handles.processed, handles.id_axes, handles.id_pot);
         

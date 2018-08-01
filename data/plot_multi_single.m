@@ -35,7 +35,7 @@ ci = id_axes(2);
 ri = id_axes(3);
 
 split_pots = processed.split_pots{id_cond,ci}(:,:,ri);
-% average_pots = processed.average_pots{id_cond,ci}(:,:,ri);
+average_pots = processed.average_pots{id_cond,ci}(:,:,ri);
 
 % xs starting from trigger
 n_pots = size(split_pots, 2);
@@ -52,9 +52,12 @@ axes(ax);
 hold on
 
 % signal
+hsig_av = plot(xs_norm(:,1), average_pots);
 hsig = plot(xs_norm(:,id_pot), split_pots(:,id_pot));
 % for n = 1:n_pots
+set(hsig_av, 'Color', [209 209 209]/255, 'LineWidth', 2);
 set(hsig, 'Color', 'k', 'LineWidth', 2);
+legend([hsig_av, hsig], 'Average Potential', 'Single Potential');
 % end
 % set(hsig(end), 'Color', 'k');
 
