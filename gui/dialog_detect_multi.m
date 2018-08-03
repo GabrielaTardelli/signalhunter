@@ -131,8 +131,6 @@ pb_detect_6_pos = [0.60, 0.20, 0.24, 0.09];
 pb_close_pos = [0.17, 0.05, 4/6, 0.09];
 edit_idpot_pos = [0.431, 0.20, 0.15, 0.09];
 
-handles.id_pot = 1;
-
 % ----- Amplitude selection
 
 % push button for amplitude selection
@@ -233,7 +231,7 @@ set(pb_detect(6), 'Position', pb_detect_6_pos, ...
 
 % text for mep selection
 handles.edit_idpot = uicontrol(panel_graph, 'Style', 'edit',...
-    'String', '1', 'BackgroundColor', 'w', 'Units', 'normalized',...
+    'String', num2str(handles.id_pot), 'BackgroundColor', 'w', 'Units', 'normalized',...
     'FontWeight', 'bold', 'FontUnits', 'normalized',...
     'Callback', @edit_idpot_Callback);
 set(handles.edit_idpot, 'Position', edit_idpot_pos, 'FontSize', 0.4);

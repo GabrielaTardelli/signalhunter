@@ -204,7 +204,7 @@ switch id_pb
         handles.processed.latency{id_cond,ci}(:,handles.id_pot,ri) = handles.processed.latency_bkp{id_cond,ci}(:,handles.id_pot,ri);
         
         % Update amplitude  and latency plots
-        hold on
+        %hold on
         %handles.hpeaks(1) = plot(axesdetect, xs_norm(handles.processed.pmin_av{id_cond,ci}(1,:,ri)),...
         %    handles.processed.pmin_av{id_cond,ci}(2,:,ri), '+r', 'MarkerSize', 10);
         %handles.hpeaks(2) = plot(axesdetect, xs_norm(handles.processed.pmax_av{id_cond,ci}(1,:,ri)),...
@@ -262,6 +262,9 @@ switch id_pb
         ri = handles.id_axes(3);
 
         split_pots = handles.processed.split_pots{id_cond,ci}(:,:,ri);
+        pmin = handles.processed.pmin{id_cond,ci}(:,:,ri);
+        pmax = handles.processed.pmax{id_cond,ci}(:,:,ri);
+        latency = handles.processed.latency{id_cond,ci}(:,:,ri);
         n_pots = size(split_pots, 2);
 
         if handles.id_pot == 1
@@ -273,6 +276,11 @@ switch id_pb
 %             set(handles.edit_idcond, 'String',...
 %                 num2str(handles.conditions(handles.id_cond)))
         end
+        
+        hstr = handles.hstr(:, :);
+        set(hstr(1,1), 'String', num2str(pmin(2,handles.id_pot),'%.2f'));
+        set(hstr(1,2), 'String', num2str(pmax(2,handles.id_pot),'%.2f'));
+        set(hstr(2,1), 'String', num2str(latency(2,handles.id_pot),'%.2f'));
 
         [handles.hsig, handles.hpeaks, handles.hlat] = plot_multi_single(axesdetect,...
         handles.processed, handles.id_axes, handles.id_pot);
@@ -299,14 +307,17 @@ switch id_pb
             end
         end
         
-        
         hold on        
+        
         % ---- Next potencial
         id_cond = handles.id_axes(1);
         ci = handles.id_axes(2);
         ri = handles.id_axes(3);
 
         split_pots = handles.processed.split_pots{id_cond,ci}(:,:,ri);
+        pmin = handles.processed.pmin{id_cond,ci}(:,:,ri);
+        pmax = handles.processed.pmax{id_cond,ci}(:,:,ri);
+        latency = handles.processed.latency{id_cond,ci}(:,:,ri);
         n_pots = size(split_pots, 2);
 
         if handles.id_pot >= n_pots
@@ -318,10 +329,16 @@ switch id_pb
             %set(handles.edit_idcond, 'String',...
               %  num2str(handles.conditions(handles.id_pot)))
         end
- 
+        
+        hstr = handles.hstr(:, :);
+        set(hstr(1,1), 'String', num2str(pmin(2,handles.id_pot),'%.2f'));
+        set(hstr(1,2), 'String', num2str(pmax(2,handles.id_pot),'%.2f'));
+        set(hstr(2,1), 'String', num2str(latency(2,handles.id_pot),'%.2f'));
+        
         [handles.hsig, handles.hpeaks, handles.hlat] = plot_multi_single(axesdetect,...
         handles.processed, handles.id_axes, handles.id_pot);
-        
+
+         
         % ---- Update edit condition
         set(handles.edit_idpot, 'String', num2str(handles.id_pot));
 end

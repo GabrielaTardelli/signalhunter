@@ -167,6 +167,11 @@ processed.ppamp_av_bkp = ppamp_av;
 processed.pmin_av_bkp = pmin_av;
 processed.pmax_av_bkp = pmax_av;
 
+processed.latency_bkp = latency;
+processed.ppamp_bkp = ppamp;
+processed.pmin_bkp = pmin;
+processed.pmax_bkp = pmax;
+
 processed.globalmin = globalmin;
 processed.globalmax = globalmax;
 
