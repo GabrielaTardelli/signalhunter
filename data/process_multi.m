@@ -49,6 +49,9 @@ xs = signal.xs;
 data = signal.data;
 trigger = signal.trigger;
 
+%coordinate = reader.coordinate
+
+
 % Potential window start after trigger onset (miliseconds)
 t0 = 10;
 % Potential window duration after t0 (miliseconds)

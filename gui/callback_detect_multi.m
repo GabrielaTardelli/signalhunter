@@ -75,7 +75,7 @@ switch id_pb
         
         set(hstr(1,1), 'String', num2str(pmin(2),'%.2f'));
         handles.hpeaks(1) = plot(axesdetect, xs_norm(pmin(1)), pmin(2), '+m',...
-            'MarkerSize', 10);
+            'MarkerSize', 10,'LineWidth', 1.5);
         
         % ---- Potential maximum peak
         set(info_text, 'BackgroundColor', [1 1 0.5], ...
@@ -87,7 +87,7 @@ switch id_pb
         
         set(hstr(1,2), 'String', num2str(pmax(2),'%.2f'));
         handles.hpeaks(2) = plot(axesdetect, xs_norm(pmax(1)), pmax(2), '+m',...
-            'MarkerSize', 10);
+            'MarkerSize', 10,'LineWidth', 1.5);
         
         hold off
         % ----
@@ -96,9 +96,6 @@ switch id_pb
         set(handles.info_text, 'BackgroundColor', 'w', 'String', '');
         
         % Update potential amplitudes, minimum and maximum peaks
-        %handles.processed.ppamp_av{id_cond,ci}(:,:,ri) = abs(pmax(2) - pmin(2));
-        %handles.processed.pmin_av{id_cond,ci}(:,:,ri) = pmin;
-        %handles.processed.pmax_av{id_cond,ci}(:,:,ri) = pmax;
         handles.processed.ppamp{id_cond,ci}(:,handles.id_pot,ri) = abs(pmax(2) - pmin(2));
         handles.processed.pmin{id_cond,ci}(:,handles.id_pot,ri) = pmin;
         handles.processed.pmax{id_cond,ci}(:,handles.id_pot,ri) = pmax;
@@ -137,7 +134,6 @@ switch id_pb
         set(handles.info_text, 'BackgroundColor', 'w', 'String', '');
         
         % Update MEPs duration, start and end instants
-        %handles.processed.latency_av{id_cond,ci}(:,:,ri) = lat;
         handles.processed.latency{id_cond,ci}(:,handles.id_pot,ri) = lat;
         
     case 3
@@ -156,15 +152,11 @@ switch id_pb
         end
         
         % Update potential amplitude, minimum and maximum peaks form backup
-        %handles.processed.ppamp_av{id_cond,ci}(:,:,ri) = 0;
-        %handles.processed.pmin_av{id_cond,ci}(:,:,ri) = [1; 0];
-        %handles.processed.pmax_av{id_cond,ci}(:,:,ri) = [1; 0];
         handles.processed.ppamp{id_cond,ci}(:,handles.id_pot,ri) = 0;
         handles.processed.pmin{id_cond,ci}(:,handles.id_pot,ri) = [1; 0];
         handles.processed.pmax{id_cond,ci}(:,handles.id_pot,ri) = [1; 0];
         
         % Update potential latency from backup
-        %handles.processed.latency_av{id_cond,ci}(:,:,ri) = [1; 0];
         handles.processed.latency{id_cond,ci}(:,handles.id_pot,ri) = [1; 0];
         
         % Update strings
@@ -192,45 +184,29 @@ switch id_pb
         end
         
         % Update potential amplitude, minimum and maximum peaks form backup
-        %handles.processed.ppamp_av{id_cond,ci}(:,:,ri) = handles.processed.ppamp_av_bkp{id_cond,ci}(:,:,ri);
-        %handles.processed.pmin_av{id_cond,ci}(:,:,ri) = handles.processed.pmin_av_bkp{id_cond,ci}(:,:,ri);
-        %handles.processed.pmax_av{id_cond,ci}(:,:,ri) = handles.processed.pmax_av_bkp{id_cond,ci}(:,:,ri);
         handles.processed.ppamp{id_cond,ci}(:,handles.id_pot,ri) = handles.processed.ppamp_bkp{id_cond,ci}(:,handles.id_pot,ri);
         handles.processed.pmin{id_cond,ci}(:,handles.id_pot,ri) = handles.processed.pmin_bkp{id_cond,ci}(:,handles.id_pot,ri);
         handles.processed.pmax{id_cond,ci}(:,handles.id_pot,ri) = handles.processed.pmax_bkp{id_cond,ci}(:,handles.id_pot,ri);
         
         % Update potential latency from backup
-        %handles.processed.latency_av{id_cond,ci}(:,:,ri) = handles.processed.latency_av_bkp{id_cond,ci}(:,:,ri);
         handles.processed.latency{id_cond,ci}(:,handles.id_pot,ri) = handles.processed.latency_bkp{id_cond,ci}(:,handles.id_pot,ri);
         
         % Update amplitude  and latency plots
-        %hold on
-        %handles.hpeaks(1) = plot(axesdetect, xs_norm(handles.processed.pmin_av{id_cond,ci}(1,:,ri)),...
-        %    handles.processed.pmin_av{id_cond,ci}(2,:,ri), '+r', 'MarkerSize', 10);
-        %handles.hpeaks(2) = plot(axesdetect, xs_norm(handles.processed.pmax_av{id_cond,ci}(1,:,ri)),...
-        %    handles.processed.pmax_av{id_cond,ci}(2,:,ri), '+r', 'MarkerSize', 10);
-        %handles.hlat = plot(axesdetect, [handles.processed.latency_av{id_cond,ci}(2,:,ri),...
-        %    handles.processed.latency_av{id_cond,ci}(2,:,ri)], [yl(1) yl(2)], 'g', 'LineWidth', 2);
-        %hold off
            hold on
         handles.hpeaks(1) = plot(axesdetect, xs_norm(handles.processed.pmin{id_cond,ci}(1,handles.id_pot,ri)),...
-            handles.processed.pmin{id_cond,ci}(2,handles.id_pot,ri), '+r', 'MarkerSize', 10);
+            handles.processed.pmin{id_cond,ci}(2,handles.id_pot,ri), '+r', 'MarkerSize', 9,'LineWidth', 2);
         handles.hpeaks(2) = plot(axesdetect, xs_norm(handles.processed.pmax{id_cond,ci}(1,handles.id_pot,ri)),...
-            handles.processed.pmax{id_cond,ci}(2,handles.id_pot,ri), '+r', 'MarkerSize', 10);
+            handles.processed.pmax{id_cond,ci}(2,handles.id_pot,ri), '+r', 'MarkerSize', 9,'LineWidth', 2);
         handles.hlat = plot(axesdetect, [handles.processed.latency{id_cond,ci}(2,handles.id_pot,ri),...
             handles.processed.latency{id_cond,ci}(2,handles.id_pot,ri)], [yl(1) yl(2)], 'g', 'LineWidth', 2);
         hold off
         
         % Update strings
         hstr = handles.hstr(1, :);
-        %set(hstr(1,1), 'String', num2str(handles.processed.pmin_av{id_cond,ci}(2,:,ri),'%.2f'));
-        %set(hstr(1,2), 'String', num2str(handles.processed.pmax_av{id_cond,ci}(2,:,ri),'%.2f'));
         set(hstr(1,1), 'String', num2str(handles.processed.pmin{id_cond,ci}(2,handles.id_pot,ri),'%.2f'));
         set(hstr(1,2), 'String', num2str(handles.processed.pmax{id_cond,ci}(2,handles.id_pot,ri),'%.2f'));
         
         hstr = handles.hstr(2, :);
-        %set(hstr(1,1), 'String', num2str(handles.processed.latency_av{id_cond,ci}(2,:,ri),'%.2f'));
-        %set(hstr(1,2), 'String', num2str(handles.processed.latency_av{id_cond,ci}(2,:,ri),'%.2f'));
         set(hstr(1,1), 'String', num2str(handles.processed.latency{id_cond,ci}(2,handles.id_pot,ri),'%.2f'));
         set(hstr(1,2), 'String', num2str(handles.processed.latency{id_cond,ci}(2,handles.id_pot,ri),'%.2f'));
     
@@ -277,6 +253,7 @@ switch id_pb
 %                 num2str(handles.conditions(handles.id_cond)))
         end
         
+        % ---- Update amplitude and latency
         hstr = handles.hstr(:, :);
         set(hstr(1,1), 'String', num2str(pmin(2,handles.id_pot),'%.2f'));
         set(hstr(1,2), 'String', num2str(pmax(2,handles.id_pot),'%.2f'));
@@ -284,6 +261,7 @@ switch id_pb
 
         [handles.hsig, handles.hpeaks, handles.hlat] = plot_multi_single(axesdetect,...
         handles.processed, handles.id_axes, handles.id_pot);
+        
         % ---- Update edit condition
         set(handles.edit_idpot, 'String', num2str(handles.id_pot));
         
@@ -330,6 +308,7 @@ switch id_pb
               %  num2str(handles.conditions(handles.id_pot)))
         end
         
+        % ---- Update amplitude and latency
         hstr = handles.hstr(:, :);
         set(hstr(1,1), 'String', num2str(pmin(2,handles.id_pot),'%.2f'));
         set(hstr(1,2), 'String', num2str(pmax(2,handles.id_pot),'%.2f'));

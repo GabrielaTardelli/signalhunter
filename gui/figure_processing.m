@@ -88,6 +88,9 @@ uimenu(hsubopen, 'Label', 'EMG Analysis',...
 uimenu(hmenufile, 'Label', 'Save log',...
     'Callback', @callback_savelog);
 
+uimenu(hmenufile, 'Label', 'Import navigator data',...
+    'Callback', @callback_navigator);
+
 hsubnew = uimenu(hmenufile, 'Label', 'Create New',...
     'Callback', @callback_createnew);
 
@@ -345,6 +348,23 @@ end
 % progress bar update
 value = 1;
 progbar_update(handles.progress_bar, value)
+
+function callback_navigator(hObject, ~)
+
+handles = guidata(hObject);
+
+[handles.reader.data_nav, open_id] = reader_nav;
+
+if open_id
+    msg = 'Succesfully read navigator data.';
+    handles = panel_textlog(handles, msg);
+else
+    msg = 'Open canceled.';
+    handles = panel_textlog(handles, msg);
+    
+end
+
+guidata(hObject, handles);
 
 %--------------------------------------------------------------------------
 % menu.toolbar instatiation

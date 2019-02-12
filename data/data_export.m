@@ -38,7 +38,12 @@ switch handles.data_id
         filt_id = export_mepanalysis(handles.reader);
         
     case 'multi channels'
-        filt_id = export_multi(handles.reader, handles.processed);
+        if isfield(handles.reader, 'data_nav')
+            filt_id = export_multi(handles.reader, handles.processed);   
+            filt_id = export_tmsmap(handles.reader, handles.processed);
+        else
+            filt_id = export_multi(handles.reader, handles.processed);
+        end
         
     case 'emf_analysis'
         a = 0
